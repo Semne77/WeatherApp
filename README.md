@@ -41,18 +41,18 @@ Run locally using the instructions below.
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/your-username/weather-tournament-advisor.git
-cd weather-tournament-advisor
+git clone https://github.com/Semne77/WeatherApp.git
+cd WeatherApp
 ```
 
 ### 2. Setup the Backend
 ```bash
-cd backend_copy
+cd backend_setup
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-# Create a .env file inside the backend_copy/ directory:
+# Create a .env file inside the backend_setup/ directory:
 ```bash
 DATABASE_URL=your_postgres_url
 WEATHER_API_KEY=your_open_meteo_key
@@ -61,12 +61,12 @@ OPENAI_API_KEY=your_openai_key
 
 # Then run the Flask server:
 ```bash
-python3 -m backend_copy.app
+python3 -m app
 ```
 
 ### 3. Setup the Frontend
 ```bash
-cd frontend
+cd ../frontend_setup
 npm install
 npm run dev
 ```
