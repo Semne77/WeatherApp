@@ -67,7 +67,7 @@ python3 -m backend_setup.app
 
 ### 3. Setup the Frontend
 ```bash
-cd /frontend_setup
+cd frontend_setup
 ```
 - Create a .env file in the frontend_setup/ directory:
 ```bash
