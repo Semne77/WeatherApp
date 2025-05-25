@@ -59,9 +59,10 @@ WEATHER_API_KEY=your_open_meteo_key
 OPENAI_API_KEY=your_openai_key
 ```
 
-- Then run the Flask server:
+- Then go back to WeatherApp and run the Flask server:
 ```bash
-python3 -m app
+cd ..
+python3 -m backend_setup.app
 ```
 
 ### 3. Setup the Frontend
