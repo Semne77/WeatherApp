@@ -20,8 +20,6 @@ Run locally using the instructions below.
   - Google Maps JavaScript API for map interaction and location autocomplete
   - Google Geocoding API to convert coordinates to readable locations
   - OpenWeatherMap API for current and 5-day forecast weather data
-  - React Hooks (`useState`, `useCallback`)
-  - HTML to PDF export via browser's print/export feature
 
 - **Backend**: Flask (Python)
   - Flask-CORS to enable cross-origin requests
