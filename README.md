@@ -52,26 +52,33 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-# Create a .env file inside the backend_setup/ directory:
+- Create a .env file inside the backend_setup/ directory:
 ```bash
 DATABASE_URL=your_postgres_url
 WEATHER_API_KEY=your_open_meteo_key
 OPENAI_API_KEY=your_openai_key
 ```
 
-# Then run the Flask server:
+- Then run the Flask server:
 ```bash
 python3 -m app
 ```
 
 ### 3. Setup the Frontend
 ```bash
-cd ../frontend_setup
+cd /frontend_setup
+```
+- Create a .env file in the frontend_setup/ directory:
+```bash
+VITE_WEATHER_API_KEY=your_openweathermap_key
+```
+- install dependencies and run:
+```bash
 npm install
 npm run dev
 ```
 
 ### Frontend will be available at:
-###📍 http://localhost:5173
+-📍 http://localhost:5173
 
 
