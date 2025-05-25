@@ -5,12 +5,14 @@ from backend_setup.db import db
 import backend_setup.config
 from openai import OpenAI
 from dotenv import load_dotenv
+from datetime import datetime
 
-load_dotenv()  
-
+load_dotenv()
 client = OpenAI()
 
+# Define Flask blueprint for weather-related API routes
 weather_bp = Blueprint("weather", __name__)
+
 
 @weather_bp.route("/api/weather-query", methods=["POST"])
 def weather_query():
@@ -23,7 +25,7 @@ def weather_query():
     end_date = data.get("end_date")
 
     try:
-        # 🧽 Step 1: Delete existing entry (if any)
+        # Remove existing record with same location/dates
         existing = WeatherQuery.query.filter_by(
             location=location,
             start_date=start_date,
@@ -33,10 +35,10 @@ def weather_query():
             db.session.delete(existing)
             db.session.commit()
 
-        # 📡 Step 2: Fetch new data
+        # Fetch new weather data
         weather_data = fetch_weather(location, start_date, end_date)
 
-        # 💾 Step 3: Save new record
+        # Save to database
         query = WeatherQuery(
             location=location,
             start_date=start_date,
@@ -51,8 +53,6 @@ def weather_query():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-
-from datetime import datetime
 
 @weather_bp.route("/api/weather-query", methods=["GET"])
 def get_weather_query():
@@ -86,13 +86,16 @@ def get_weather_query():
         "created_at": query.created_at.isoformat()
     }), 200
 
+
 @weather_bp.route("/api/search-history", methods=["GET"])
 def get_search_history():
     page = int(request.args.get("page", 1))
     limit = int(request.args.get("limit", 10))
     offset = (page - 1) * limit
 
-    queries = WeatherQuery.query.order_by(WeatherQuery.created_at.desc()).offset(offset).limit(limit).all()
+    queries = WeatherQuery.query.order_by(
+        WeatherQuery.created_at.desc()
+    ).offset(offset).limit(limit).all()
     total = WeatherQuery.query.count()
 
     return jsonify({
@@ -137,7 +140,6 @@ def update_weather_query(query_id):
         return jsonify({"error": str(e)}), 500
 
 
-
 @weather_bp.route("/api/generate-report", methods=["POST"])
 def generate_report():
     data = request.get_json()
@@ -152,29 +154,29 @@ def generate_report():
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a casual assistant helping a tennis tournament supervisor. You give short and relaxed advice based only on temperature."
+                    "content": (
+                        "You are a casual assistant helping a tennis tournament supervisor. "
+                        "You give short and relaxed advice based only on temperature."
+                    )
                 },
                 {
                     "role": "user",
                     "content": f"""
-        You are helping decide whether to host a tennis tournament indoors or outdoors based only on temperature.
+You are helping decide whether to host a tennis tournament indoors or outdoors based only on temperature.
 
-        Here’s the rule:
-        - If the max temperature is below 10°C on any day, suggest having an indoor backup plan.
-        - If the overall temperatures are above 10°C most of the time, it's fine to host outdoors.
+Here’s the rule:
+- If the max temperature is below 10°C on any day, suggest having an indoor backup plan.
+- If the overall temperatures are above 10°C most of the time, it's fine to host outdoors.
 
-        Based on this forecast for {location} from {start} to {end}, give a short and casual recommendation.
+Based on this forecast for {location} from {start} to {end}, give a short and casual recommendation.
 
-        Data:\n{daily}
-        """
+Data:\n{daily}
+"""
                 }
             ]
         )
 
-
-
         return jsonify({"report": response.choices[0].message.content})
     except Exception as e:
-        print("AI report generation failed:", str(e))  # 🪵 Logs the actual error in your terminal
-        return jsonify({"error": str(e)}), 500  # 🛠️ Make sure this is 500 not 50
-
+        print("AI report generation failed:", str(e))
+        return jsonify({"error": str(e)}), 500

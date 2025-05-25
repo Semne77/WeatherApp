@@ -17,6 +17,7 @@ function FrontendPage() {
 
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
+  // Fetch weather and forecast data from OpenWeatherMap API
   const fetchWeatherByCoords = async (lat, lon) => {
     try {
       setError('');
@@ -40,6 +41,7 @@ function FrontendPage() {
     }
   };
 
+  // Handle click on the map (reverse geocode and fetch weather)
   const handleMapClick = useCallback(async (lat, lon) => {
     try {
       const geocodeRes = await axios.get(
@@ -54,6 +56,7 @@ function FrontendPage() {
     }
   }, []);
 
+  // Handle location selected from search suggestions
   const handleSearchSelection = (lat, lon, fullAddress) => {
     setAddress(fullAddress);
     setLat(lat);
@@ -99,8 +102,6 @@ function FrontendPage() {
       </div>
     </div>
   );
-  
 }
 
 export default FrontendPage;
-

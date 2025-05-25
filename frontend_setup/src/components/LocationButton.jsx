@@ -11,7 +11,7 @@ function LocationButton({ onUseLocation }) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        onUseLocation(latitude, longitude);
+        onUseLocation(latitude, longitude); // Pass location back to parent
       },
       () => {
         alert('Unable to retrieve your location');
