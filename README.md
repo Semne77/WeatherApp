@@ -13,12 +13,29 @@ Run locally using the instructions below.
 - 📚 Search history with re-run and delete options.
 
 ## 🛠️ Tech Stack
+
 - **Frontend**: React (Vite)
+  - Tailwind CSS for styling
+  - Axios for API requests
+  - Google Maps JavaScript API for map interaction and location autocomplete
+  - Google Geocoding API to convert coordinates to readable locations
+  - OpenWeatherMap API for current and 5-day forecast weather data
+  - React Hooks (`useState`, `useCallback`)
+  - HTML to PDF export via browser's print/export feature
+
 - **Backend**: Flask (Python)
+  - Flask-CORS to enable cross-origin requests
+  - SQLAlchemy for database interaction
+  - dotenv to load API keys securely
+
 - **Database**: PostgreSQL (hosted via Render)
+
 - **APIs**:
-  - [Open-Meteo](https://open-meteo.com/) for weather data
-  - [OpenAI GPT-4](https://platform.openai.com/) for AI advice
+  - [Open-Meteo](https://open-meteo.com/) for historical and forecast temperature data
+  - [OpenAI GPT-4](https://platform.openai.com/) for AI-generated tennis tournament advice
+  - [OpenWeatherMap](https://openweathermap.org/) for real-time weather and forecasts
+  - [Google Maps & Geocoding API](https://developers.google.com/maps/documentation) for location handling
+
 
 ---
 
