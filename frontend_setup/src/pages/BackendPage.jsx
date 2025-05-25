@@ -13,48 +13,43 @@ function BackendPage() {
   const [refreshKey, setRefreshKey] = useState(0);
   const [aiReport, setAiReport] = useState("");
 
+  // Called when user selects a location from autocomplete
   const handleLocationSelect = (lat, lng, description) => {
     setLatLng({ lat, lng });
     setLocation(description);
   };
 
+  // Generate and download a PDF report
   const handleExportPDF = () => {
     const doc = new jsPDF();
     doc.setFontSize(16);
     doc.text("Tennis Tournament Weather Report", 14, 20);
-  
-    // Weather Summary
+
     doc.setFontSize(12);
     doc.text(`Location: ${weatherData.location}`, 14, 30);
     doc.text(`Date Range: ${weatherData.start_date} to ${weatherData.end_date}`, 14, 36);
     doc.text(`Created: ${new Date(weatherData.created_at).toLocaleString()}`, 14, 42);
-  
-    // Weather Table
+
     const headers = [["Date", "Min Temp (°C)", "Max Temp (°C)"]];
     const rows = weatherData.weather_data[0].daily.time.map((date, idx) => [
       date,
       weatherData.weather_data[0].daily.temperature_2m_min[idx],
       weatherData.weather_data[0].daily.temperature_2m_max[idx],
     ]);
-    autoTable(doc, {
-      head: headers,
-      body: rows,
-      startY: 50,
-    });
-  
-    // AI Report
+    autoTable(doc, { head: headers, body: rows, startY: 50 });
+
     const reportY = doc.lastAutoTable.finalY + 10;
     doc.setFontSize(14);
     doc.text("AI Tournament Advice", 14, reportY);
-  
+
     doc.setFontSize(11);
-    const lines = doc.splitTextToSize(aiReport, 180); // Wrap text
+    const lines = doc.splitTextToSize(aiReport, 180);
     doc.text(lines, 14, reportY + 6);
-  
+
     doc.save("weather_report.pdf");
   };
 
-
+  // Request AI tournament recommendation
   const handleGenerateAdvice = async () => {
     const response = await fetch("http://localhost:5001/api/generate-report", {
       method: "POST",
@@ -66,38 +61,38 @@ function BackendPage() {
         forecast: weatherData.weather_data[0].daily,
       }),
     });
-  
+
     const data = await response.json();
     setAiReport(data.report || "⚠️ Failed to generate advice.");
   };
 
+  // Submit form to save and fetch weather data
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    //  Frontend validation to prevent invalid date range
+
     if (new Date(endDate) < new Date(startDate)) {
       alert("❌ End date must be later than or equal to start date.");
       return;
     }
-  
+
     const postRes = await fetch("http://localhost:5001/api/weather-query", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ location, start_date: startDate, end_date: endDate }),
     });
-  
+
     const postData = await postRes.json();
     if (!postRes.ok) {
       alert("❌ Failed to save data: " + postData.error);
       return;
     }
-  
+
     const getRes = await fetch(
       `http://localhost:5001/api/weather-query?location=${encodeURIComponent(
         location
       )}&start_date=${startDate}&end_date=${endDate}`
     );
-  
+
     const getData = await getRes.json();
     if (getRes.ok) {
       setWeatherData(getData);
@@ -107,8 +102,8 @@ function BackendPage() {
       setWeatherData(null);
     }
   };
-  
 
+  // Load weather data from a previous search
   const handleReRun = async (entry) => {
     setLocation(entry.location);
     setStartDate(entry.start_date);
@@ -136,6 +131,7 @@ function BackendPage() {
     <div className="min-h-screen bg-gray-900 text-white px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Weather Query Form</h1>
 
+      {/* Form for location and date input */}
       <form
         onSubmit={handleSubmit}
         className="bg-gray-800 rounded-xl p-6 shadow-lg max-w-3xl mx-auto mb-8"
@@ -173,21 +169,15 @@ function BackendPage() {
         </button>
       </form>
 
+      {/* Weather table display */}
       {weatherData && weatherData.weather_data?.[0]?.daily?.time && (
         <div className="bg-gray-800 rounded-xl p-6 shadow-lg max-w-4xl mx-auto mb-8">
           <h2 className="text-xl font-semibold mb-2">
             Weather Data for {weatherData.location}
           </h2>
-          <p>
-            <strong>From:</strong> {weatherData.start_date}
-          </p>
-          <p>
-            <strong>To:</strong> {weatherData.end_date}
-          </p>
-          <p>
-            <strong>Created:</strong>{" "}
-            {new Date(weatherData.created_at).toLocaleString()}
-          </p>
+          <p><strong>From:</strong> {weatherData.start_date}</p>
+          <p><strong>To:</strong> {weatherData.end_date}</p>
+          <p><strong>Created:</strong> {new Date(weatherData.created_at).toLocaleString()}</p>
 
           <table className="w-full mt-4 border-collapse">
             <thead>
@@ -213,6 +203,8 @@ function BackendPage() {
           </table>
         </div>
       )}
+
+      {/* AI summary and export */}
       {weatherData && (
         <div className="text-center mt-4">
           <button
@@ -229,6 +221,7 @@ function BackendPage() {
           )}
         </div>
       )}
+
       {aiReport && (
         <div className="text-center mt-4">
           <button
@@ -240,7 +233,7 @@ function BackendPage() {
         </div>
       )}
 
-
+      {/* Search history display */}
       <div className="bg-gray-800 rounded-xl p-6 shadow-lg max-w-4xl mx-auto">
         <SearchHistory refreshKey={refreshKey} onReRun={handleReRun} />
       </div>

@@ -2,7 +2,7 @@
 import React from 'react';
 
 function ErrorMessage({ message }) {
-  if (!message) return null; // don't show anything if there's no error
+  if (!message) return null; // Skip rendering if no error message
 
   return (
     <div style={{ color: 'red', marginTop: '1rem' }}>

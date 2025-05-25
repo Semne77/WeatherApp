@@ -10,21 +10,23 @@ function SearchBar({ address, setAddress, onLocationSelect }) {
     clearSuggestions,
   } = usePlacesAutocomplete();
 
+  // Handle text input changes
   const handleInput = (e) => {
     setAddress(e.target.value);
-    setValue(e.target.value); // for autocomplete
+    setValue(e.target.value); // updates autocomplete suggestions
   };
 
+  // Handle selection from suggestions
   const handleSelect = async (suggestion) => {
     const description = suggestion.description;
-    setValue(description, false);  // ✅ lock selected value
-    setAddress(description);       // ✅ update external input state
+    setValue(description, false);
+    setAddress(description);
     clearSuggestions();
 
     try {
       const results = await getGeocode({ address: description });
       const { lat, lng } = await getLatLng(results[0]);
-      onLocationSelect(lat, lng, description); // ✅ now safe to call
+      onLocationSelect(lat, lng, description);
     } catch (error) {
       console.error('Error getting location:', error);
     }
@@ -39,8 +41,8 @@ function SearchBar({ address, setAddress, onLocationSelect }) {
         disabled={!ready}
         placeholder="Enter city, zip, or address"
       />
-  
-      {/* Static height container for suggestions */}
+
+      {/* Suggestion list */}
       <div className="absolute mt-1 w-full bg-gray-800 border rounded z-50 max-h-48 overflow-y-auto">
         {status === 'OK' && data.map((suggestion) => (
           <div
@@ -54,8 +56,6 @@ function SearchBar({ address, setAddress, onLocationSelect }) {
       </div>
     </div>
   );
-  
-  
 }
 
 export default SearchBar;

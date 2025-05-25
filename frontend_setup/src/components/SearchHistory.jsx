@@ -1,14 +1,15 @@
-// SearchHistory.jsx
+// src/components/SearchHistory.jsx
 import React, { useEffect, useState } from "react";
 
-function SearchHistory({ onReRun , refreshKey}) {
+function SearchHistory({ onReRun, refreshKey }) {
   const [history, setHistory] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const MAX_ENTRIES = 10; // show only most recent 10
+  const MAX_ENTRIES = 10;
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  // Fetch paginated search history from backend
   useEffect(() => {
     const fetchHistory = async () => {
       try {
@@ -26,6 +27,7 @@ function SearchHistory({ onReRun , refreshKey}) {
     fetchHistory();
   }, [refreshKey, page]);
 
+  // Delete an entry by ID
   const handleDelete = async (id) => {
     try {
       await fetch(`http://localhost:5001/api/weather-query/${id}`, {
@@ -40,10 +42,10 @@ function SearchHistory({ onReRun , refreshKey}) {
   return (
     <div className="mt-8">
       <h2 className="text-xl font-semibold mb-4">Search History</h2>
-  
+
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-400">{error}</p>}
-  
+
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-sm text-gray-100">
           <thead>
@@ -67,15 +69,20 @@ function SearchHistory({ onReRun , refreshKey}) {
                   {new Date(entry.created_at).toLocaleString()}
                 </td>
                 <td className="px-4 py-2 text-center space-x-2">
-                  <button onClick={() => onReRun(entry)} className="text-blue-400 hover:underline">🔄 View</button>
-                  <button onClick={() => handleDelete(entry.id)} className="text-red-400 hover:underline">🗑 Delete</button>
+                  <button onClick={() => onReRun(entry)} className="text-blue-400 hover:underline">
+                    🔄 View
+                  </button>
+                  <button onClick={() => handleDelete(entry.id)} className="text-red-400 hover:underline">
+                    🗑 Delete
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-  
+
+      {/* Pagination controls */}
       <div className="mt-4 flex items-center justify-center gap-6 text-sm">
         <button
           onClick={() => setPage((p) => Math.max(p - 1, 1))}
@@ -97,8 +104,8 @@ function SearchHistory({ onReRun , refreshKey}) {
       </div>
     </div>
   );
-  
 }
 
 export default SearchHistory;
+
 
