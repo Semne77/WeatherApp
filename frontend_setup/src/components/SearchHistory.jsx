@@ -67,7 +67,7 @@ function SearchHistory({ onReRun , refreshKey}) {
                   {new Date(entry.created_at).toLocaleString()}
                 </td>
                 <td className="px-4 py-2 text-center space-x-2">
-                  <button onClick={() => onReRun(entry)} className="text-blue-400 hover:underline">🔄 Re-run</button>
+                  <button onClick={() => onReRun(entry)} className="text-blue-400 hover:underline">🔄 View</button>
                   <button onClick={() => handleDelete(entry.id)} className="text-red-400 hover:underline">🗑 Delete</button>
                 </td>
               </tr>

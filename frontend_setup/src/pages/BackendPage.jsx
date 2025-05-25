@@ -73,25 +73,31 @@ function BackendPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    //  Frontend validation to prevent invalid date range
+    if (new Date(endDate) < new Date(startDate)) {
+      alert("❌ End date must be later than or equal to start date.");
+      return;
+    }
+  
     const postRes = await fetch("http://localhost:5001/api/weather-query", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ location, start_date: startDate, end_date: endDate }),
     });
-
+  
     const postData = await postRes.json();
     if (!postRes.ok) {
       alert("❌ Failed to save data: " + postData.error);
       return;
     }
-
+  
     const getRes = await fetch(
       `http://localhost:5001/api/weather-query?location=${encodeURIComponent(
         location
       )}&start_date=${startDate}&end_date=${endDate}`
     );
-
+  
     const getData = await getRes.json();
     if (getRes.ok) {
       setWeatherData(getData);
@@ -101,6 +107,7 @@ function BackendPage() {
       setWeatherData(null);
     }
   };
+  
 
   const handleReRun = async (entry) => {
     setLocation(entry.location);
