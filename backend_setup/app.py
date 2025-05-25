@@ -1,0 +1,20 @@
+from flask import Flask
+from .db import db
+from .routes import weather_bp
+from dotenv import load_dotenv
+from flask_cors import CORS
+
+load_dotenv()
+
+
+app = Flask(__name__)
+CORS(app)  # ← enable CORS for all domains
+app.config.from_object("backend_setup.config")  # or your correct config path
+
+print("Loaded DB URI:", app.config["SQLALCHEMY_DATABASE_URI"])
+db.init_app(app)                          # ✅ binds the db to this app
+
+app.register_blueprint(weather_bp)
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5001, host="0.0.0.0")

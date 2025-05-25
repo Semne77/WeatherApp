@@ -1,0 +1,44 @@
+/* index.css or App.css */
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  background-color: #e5e5e5; /* light gray */
+  min-height: 100vh;
+}
+
+.search-bar {
+  grid-column: 1 / 2;
+  background-color: #c17854;
+  padding: 10px;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.weather-info {
+  grid-column: 2 / 3;
+  background-color: #c17854;
+  padding: 10px;
+  color: white;
+}
+
+.map {
+  grid-column: 1 / 2;
+  background-color: #c17854;
+  padding: 10px;
+  color: white;
+  height: 300px;
+}
+
+.forecast {
+  grid-column: 2 / 3;
+  background-color: #c17854;
+  padding: 10px;
+  color: white;
+  height: 300px;
+}
