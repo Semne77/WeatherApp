@@ -1,6 +1,6 @@
 from flask import Flask
-from backend_setup.db import db
-from backend_setup.routes import weather_bp
+from db import db
+from routes import weather_bp
 from dotenv import load_dotenv
 from flask_cors import CORS
 
