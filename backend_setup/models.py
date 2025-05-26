@@ -1,7 +1,6 @@
 from .db import db
 from datetime import datetime
 
-# Model for storing weather queries in the database
 class WeatherQuery(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     location = db.Column(db.String(128), nullable=False)
@@ -10,7 +9,6 @@ class WeatherQuery(db.Model):
     weather_data = db.Column(db.JSON)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Serialize model instance to dictionary
     def to_dict(self):
         return {
             "id": self.id,

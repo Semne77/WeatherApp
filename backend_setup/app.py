@@ -1,24 +1,21 @@
 from flask import Flask
-from backend_setup.db import db
-from backend.routes import weather_bp
+from .db import db
+from .routes import weather_bp
 from dotenv import load_dotenv
 from flask_cors import CORS
 
-# Load environment variables from .env file
 load_dotenv()
 
-# Initialize Flask app
 app = Flask(__name__)
+CORS(app, origins="http://localhost:5173")
 
-# Enable CORS for all routes (allows cross-origin requests from frontend)
-CORS(app)
-
-# Load configuration (e.g., database URI) from config.py
 app.config.from_object("backend_setup.config")
-
-# Initialize database with app context
-print("Loaded DB URI:", app.config["SQLALCHEMY_DATABASE_URI"])
 db.init_app(app)
 
-# Register weather routes under blueprint
+with app.app_context():
+    db.create_all()
+
 app.register_blueprint(weather_bp)
+
+if __name__ == "__main__":
+    app.run(debug=True, port=5001, host="0.0.0.0")
