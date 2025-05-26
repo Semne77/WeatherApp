@@ -7,7 +7,10 @@ from flask_cors import CORS
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins="https://weather-frontend-plhk.onrender.com")
+CORS(app, origins=[
+    "http://localhost:5173",  # for local frontend dev
+    "https://weather-frontend-plhk.onrender.com"  # deployed frontend
+])
 
 app.config.from_object("backend_setup.config")
 db.init_app(app)
