@@ -1,6 +1,6 @@
 from flask import Flask
-from .db import db
-from .routes import weather_bp
+from backend_setup.db import db
+from backend.routes import weather_bp
 from dotenv import load_dotenv
 from flask_cors import CORS
 
@@ -22,7 +22,3 @@ db.init_app(app)
 
 # Register weather routes under blueprint
 app.register_blueprint(weather_bp)
-
-# Run the app locally for development
-if __name__ == "__main__":
-    app.run(debug=True, port=5001, host="0.0.0.0")
