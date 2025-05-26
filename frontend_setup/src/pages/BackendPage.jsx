@@ -3,6 +3,8 @@ import SearchBar from "../components/SearchBar";
 import SearchHistory from "../components/SearchHistory";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+export const API_BASE = import.meta.env.VITE_BACKEND_URL;
+
 
 function BackendPage() {
   const [location, setLocation] = useState("");
@@ -51,7 +53,7 @@ function BackendPage() {
 
   // Request AI tournament recommendation
   const handleGenerateAdvice = async () => {
-    const response = await fetch("http://localhost:5001/api/generate-report", {
+    const response = await fetch(`${API_BASE}/api/generate-report`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -75,7 +77,7 @@ function BackendPage() {
       return;
     }
 
-    const postRes = await fetch("http://localhost:5001/api/weather-query", {
+    const postRes = await fetch(`${API_BASE}/api/weather-query`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ location, start_date: startDate, end_date: endDate }),
@@ -88,10 +90,9 @@ function BackendPage() {
     }
 
     const getRes = await fetch(
-      `http://localhost:5001/api/weather-query?location=${encodeURIComponent(
-        location
-      )}&start_date=${startDate}&end_date=${endDate}`
+      `${API_BASE}/api/weather-query?location=${encodeURIComponent(location)}&start_date=${startDate}&end_date=${endDate}`
     );
+    
 
     const getData = await getRes.json();
     if (getRes.ok) {
@@ -112,10 +113,9 @@ function BackendPage() {
 
     try {
       const res = await fetch(
-        `http://localhost:5001/api/weather-query?location=${encodeURIComponent(
-          entry.location
-        )}&start_date=${entry.start_date}&end_date=${entry.end_date}`
+        `${API_BASE}/api/weather-query?location=${encodeURIComponent(entry.location)}&start_date=${entry.start_date}&end_date=${entry.end_date}`
       );
+      
       const data = await res.json();
       if (res.ok) {
         setWeatherData(data);

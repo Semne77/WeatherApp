@@ -1,5 +1,6 @@
 // src/components/SearchHistory.jsx
 import React, { useEffect, useState } from "react";
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 function SearchHistory({ onReRun, refreshKey }) {
   const [history, setHistory] = useState([]);
@@ -13,7 +14,7 @@ function SearchHistory({ onReRun, refreshKey }) {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const res = await fetch(`http://localhost:5001/api/search-history?page=${page}&limit=10`);
+        const res = await fetch(`${API_BASE}/api/search-history?page=${page}&limit=10`);
         if (!res.ok) throw new Error("Server error");
         const result = await res.json();
         setHistory(result.data);
@@ -30,7 +31,7 @@ function SearchHistory({ onReRun, refreshKey }) {
   // Delete an entry by ID
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:5001/api/weather-query/${id}`, {
+      await fetch(`${API_BASE}/api/weather-query/${id}`, {
         method: "DELETE",
       });
       setHistory((prev) => prev.filter((item) => item.id !== id));
