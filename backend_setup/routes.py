@@ -32,7 +32,7 @@ def weather_query():
         if existing:
             db.session.delete(existing)
             db.session.commit()
-
+        print("fetching weather")
         # 📡 Step 2: Fetch new data
         weather_data = fetch_weather(location, start_date, end_date)
 

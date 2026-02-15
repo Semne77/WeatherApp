@@ -17,11 +17,11 @@ def fetch_weather(location, start_date, end_date):
     start = datetime.strptime(start_date, "%Y-%m-%d").date()
     end = datetime.strptime(end_date, "%Y-%m-%d").date()
     today = date.today()
-
+    print("getting coardinates")
     latitude, longitude = get_coordinates(location)
 
     result = []
-
+    print("selecting")
     if end < today:
         # Historical Data
         url = "https://archive-api.open-meteo.com/v1/archive"
