@@ -15,6 +15,7 @@ function FrontendPage() {
   const [lat, setLat] = useState(null);
   const [lon, setLon] = useState(null);
 
+  const googleKey = import.meta.env.VITE_GOOGLE_MAPS_KEY;
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
   // Fetch weather and forecast data from OpenWeatherMap API
@@ -41,20 +42,15 @@ function FrontendPage() {
     }
   };
 
-  // Handle click on the map (reverse geocode and fetch weather)
-  const handleMapClick = useCallback(async (lat, lon) => {
-    try {
-      const geocodeRes = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=YOUR_GOOGLE_MAPS_KEY`
-      );
-      const place = geocodeRes.data.results[0]?.formatted_address;
-      if (place) setAddress(place);
-      fetchWeatherByCoords(lat, lon);
-    } catch (err) {
-      console.error("Reverse geocoding failed:", err);
-      fetchWeatherByCoords(lat, lon);
+    // Handle click on the map (reverse geocode and fetch weather)
+  const handleMapClick = useCallback(
+    async (lat, lon) => {
+      await fetchWeatherByCoords(lat, lon);
+      setTimeout(() => setAddress(""), 0);
     }
-  }, []);
+    ,
+    [fetchWeatherByCoords]
+  );
 
   // Handle location selected from search suggestions
   const handleSearchSelection = (lat, lon, fullAddress) => {

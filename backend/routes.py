@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
-from backend_setup.utils.fetch_weather import fetch_weather
-from backend_setup.models import WeatherQuery
-from backend_setup.db import db
-import backend_setup.config
+from backend.utils.fetch_weather import fetch_weather
+from backend.models import WeatherQuery
+from backend.db import db
+import backend.config
 from openai import OpenAI
 from dotenv import load_dotenv
 

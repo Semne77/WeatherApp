@@ -1,6 +1,6 @@
 from flask import Flask
-from backend_setup.db import db
-from backend_setup.routes import weather_bp
+from backend.db import db
+from backend.routes import weather_bp
 from dotenv import load_dotenv
 from flask_cors import CORS
 
@@ -12,7 +12,7 @@ CORS(app, origins=[
     "https://weather-frontend-plhk.onrender.com"  # deployed frontend
 ])
 
-app.config.from_object("backend_setup.config")
+app.config.from_object("backend.config")
 db.init_app(app)
 
 with app.app_context():
