@@ -7,7 +7,7 @@ import { validateWeatherForm } from "../lib/validation";
 export const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 
-function BackendPage() {
+function HistoryForecastPage() {
   const [location, setLocation] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -243,4 +243,4 @@ function BackendPage() {
   );
 }
 
-export default BackendPage;
+export default HistoryForecastPage;

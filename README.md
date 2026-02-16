@@ -1,85 +1,36 @@
 # 🧠 Weather Tournament Advisor
 
-This app helps tennis tournament managers decide whether to host matches indoors or outdoors based on weather forecasts.
+A full-stack weather application with two main features:
 
-## 🌐 Live Demo
-On this link - https://weather-frontend-plhk.onrender.com
+## 🌍 1. Current Weather View
+- Search any city or click on the map  
+- View current weather and short-term forecast  
 
-## 🚀 Features
-- 🌎 Search for a city and date range to get weather data.
-- 📈 View daily temperature forecasts.
-- 🧠 Get AI-generated advice for hosting the tournament indoors or outdoors.
-- 📄 Export the forecast and AI recommendation to PDF.
-- 📚 Search history with re-run and delete options.
+## 📅 2. Date Range Weather Analysis
+- Select a location and date range  
+- Retrieve historical or forecasted temperature data  
+- Save and re-run previous searches  
 
-## 🛠️ Tech Stack
-
-- **Frontend**: React (Vite)
-  - Tailwind CSS for styling
-  - Axios for API requests
-  - Google Maps JavaScript API for map interaction and location autocomplete
-  - Google Geocoding API to convert coordinates to readable locations
-  - OpenWeatherMap API for current and 5-day forecast weather data
-
-- **Backend**: Flask (Python)
-  - Flask-CORS to enable cross-origin requests
-  - SQLAlchemy for database interaction
-  - dotenv to load API keys securely
-
-- **Database**: PostgreSQL (hosted via Render)
-
-- **APIs**:
-  - [Open-Meteo](https://open-meteo.com/) for historical and forecast temperature data
-  - [OpenAI GPT-4](https://platform.openai.com/) for AI-generated tennis tournament advice
-  - [OpenWeatherMap](https://openweathermap.org/) for real-time weather and forecasts
-  - [Google Maps & Geocoding API](https://developers.google.com/maps/documentation) for location handling
-
+## 🎾 Tournament Recommendation
+The app generates AI-based advice to help tennis tournament supervisors decide whether matches should be held indoors or outdoors based on weather conditions.  
+A PDF report with forecast + recommendation can be exported.
 
 ---
 
-## ⚙️ How to Run Locally
+## 🛠 Tech Stack
 
-### 1. Clone the repo
-```bash
-git clone https://github.com/Semne77/WeatherApp.git
-cd WeatherApp
-```
+**Frontend:** React (Vite), Tailwind, Google Maps API  
+**Backend:** Flask, SQLAlchemy  
+**Database:** PostgreSQL  
+**APIs:** Open-Meteo, OpenWeatherMap, OpenAI, Google Maps  
 
-### 2. Setup the Backend
-```bash
-cd backend_setup
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-- Create a .env file inside the backend_setup/ directory:
-```bash
-DATABASE_URL=your_postgres_url
-WEATHER_API_KEY=your_open_meteo_key
-OPENAI_API_KEY=your_openai_key
-```
+---
 
-- Then go back to WeatherApp and run the Flask server:
-```bash
-cd ..
-python3 -m backend_setup.app
-```
+## 🧪 Testing
 
-### 3. Setup the Frontend
-```bash
-cd frontend_setup
-```
-- Create a .env file in the frontend_setup/ directory:
-```bash
-VITE_WEATHER_API_KEY=your_openweathermap_key
-```
-- install dependencies and run:
-```bash
-npm install
-npm run dev
-```
+✔ Backend: 2 unit tests + 1 integration test  
+✔ Frontend: 2 unit tests + 1 integration test  
+All tests passing.
 
-### Frontend will be available at:
--📍 http://localhost:5173
-
+---
 

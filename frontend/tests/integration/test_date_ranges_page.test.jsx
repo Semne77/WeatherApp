@@ -1,7 +1,7 @@
 import React from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
-import BackendPage from "../../src/pages/HistoryForecastPage";
+import HistoryForecastPage from "../../src/pages/HistoryForecastPage";
 
 vi.mock("../../src/components/SearchBar", () => ({
   default: ({ address, setAddress }) => (
@@ -18,7 +18,7 @@ vi.mock("../../src/components/SearchHistory", () => ({
   default: () => <div data-testid="search-history" />,
 }));
 
-describe("BackendPage (integration)", () => {
+describe("HistoryForecastPage (integration)", () => {
   beforeEach(() => {
     cleanup();
     vi.restoreAllMocks();
@@ -34,7 +34,7 @@ describe("BackendPage (integration)", () => {
   afterEach(() => cleanup());
 
   it("does NOT call API when required fields are missing", () => {
-    render(<BackendPage />);
+    render(<HistoryForecastPage />);
 
     fireEvent.click(screen.getByRole("button", { name: /submit query/i }));
 
@@ -42,7 +42,7 @@ describe("BackendPage (integration)", () => {
   });
 
   it("calls POST /api/weather-query with correct JSON body when valid", async () => {
-    render(<BackendPage />);
+    render(<HistoryForecastPage />);
 
     fireEvent.change(screen.getByTestId("location-input"), {
       target: { value: "Minneapolis, MN, USA" },

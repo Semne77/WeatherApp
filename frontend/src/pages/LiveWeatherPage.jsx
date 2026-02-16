@@ -7,7 +7,7 @@ import LocationButton from '../components/LocationButton';
 import ErrorMessage from '../components/ErrorMessage';
 import MapComponent from '../components/MapComponent';
 
-function FrontendPage() {
+function LiveWeatherPage() {
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState([]);
   const [error, setError] = useState('');
@@ -100,4 +100,4 @@ function FrontendPage() {
   );
 }
 
-export default FrontendPage;
+export default  LiveWeatherPage;
