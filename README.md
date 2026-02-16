@@ -1,4 +1,4 @@
-# 🧠 Weather Tournament Advisor
+# 🧠 Weather Application
 
 A full-stack weather application with two main features:
 
