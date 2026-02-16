@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 
 # Convert city name to latitude and longitude
 def get_coordinates(location):
-    geolocator = Nominatim(user_agent="weather-app")
+    geolocator = Nominatim(user_agent="weather-app", timeout=3) 
     loc = geolocator.geocode(location)
     if loc:
         return loc.latitude, loc.longitude

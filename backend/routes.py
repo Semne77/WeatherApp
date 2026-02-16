@@ -5,6 +5,7 @@ from backend.db import db
 import backend.config
 from openai import OpenAI
 from dotenv import load_dotenv
+from backend.utils.validation import validate_weather_payload
 
 load_dotenv()  
 
@@ -14,35 +15,36 @@ weather_bp = Blueprint("weather", __name__)
 
 @weather_bp.route("/api/weather-query", methods=["POST"])
 def weather_query():
-    print("POST /api/weather-query hit!")
     data = request.get_json()
-    print("Received data:", data)
+
+    error = validate_weather_payload(data)
+    if error:
+        return jsonify({"error": error}), 400
 
     location = data.get("location")
     start_date = data.get("start_date")
     end_date = data.get("end_date")
 
     try:
-        # 🧽 Step 1: Delete existing entry (if any)
         existing = WeatherQuery.query.filter_by(
             location=location,
             start_date=start_date,
             end_date=end_date
         ).first()
+
         if existing:
             db.session.delete(existing)
             db.session.commit()
-        print("fetching weather")
-        # 📡 Step 2: Fetch new data
+
         weather_data = fetch_weather(location, start_date, end_date)
 
-        # 💾 Step 3: Save new record
         query = WeatherQuery(
             location=location,
             start_date=start_date,
             end_date=end_date,
             weather_data=weather_data
         )
+
         db.session.add(query)
         db.session.commit()
 
@@ -50,6 +52,7 @@ def weather_query():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 400
+
 
 
 from datetime import datetime

@@ -3,6 +3,7 @@ import SearchBar from "../components/SearchBar";
 import SearchHistory from "../components/SearchHistory";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { validateWeatherForm } from "../lib/validation";
 export const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 
@@ -72,8 +73,9 @@ function BackendPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (new Date(endDate) < new Date(startDate)) {
-      alert("❌ End date must be later than or equal to start date.");
+    const err = validateWeatherForm({ location, startDate, endDate });
+    if (err) {
+      alert("❌ " + err);
       return;
     }
 
